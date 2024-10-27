@@ -76,4 +76,34 @@ router.get('/provincia/:provincia', (req, res) => {
   })
 })
 
+// Sumatoria de los casos totales en todo el país
+router.get('/dengue/casos_totales', (req, res) => {
+  const query = 'SELECT SUM(cantidad) AS total_casos FROM dengue_data'
+
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error('Error buscando en la base de datos:', err)
+      return res.status(500).send('Error buscando en la base de datos')
+    }
+
+    res.json({ total_casos: results[0].total_casos })
+  })
+})
+
+// casos totales por provincia (por id)
+router.get('/dengue/casos_totales/:provinciaId', (req, res) => {
+  const provinciaId = req.params.provinciaId
+  const query =
+    'SELECT SUM(cantidad) AS total_casos FROM dengue_data WHERE provincia_residencia_id = ?'
+
+  connection.query(query, [provinciaId], (err, results) => {
+    if (err) {
+      console.error('Error buscando en la base de datos:', err)
+      return res.status(500).send('Error buscando en la base de datos')
+    }
+
+    res.json({ total_casos: results[0].total_casos })
+  })
+})
+
 module.exports = router
