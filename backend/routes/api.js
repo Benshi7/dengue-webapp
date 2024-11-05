@@ -14,22 +14,49 @@ router.get('/', (req, res) => {
 
 // traer todos los casos
 router.get('/dengue', (req, res) => {
-  const query = 'SELECT * FROM dengue_data'
+  const query = `
+    SELECT
+      dengue_data.id,
+      dengue_data.cantidad,
+      departamento_residencia,
+      provincia_residencia.nombre_provincia AS provincia_residencia,
+      grupo_etario.nombre AS grupo_etario,
+      tipo_evento.nombre_evento AS tipo_evento,
+      anio.anio AS anio
+    FROM dengue_data
+    JOIN provincia_residencia ON dengue_data.provincia_residencia_id = provincia_residencia.id
+    JOIN grupo_etario ON dengue_data.grupo_etario_id = grupo_etario.id
+    JOIN tipo_evento ON dengue_data.tipo_evento_id = tipo_evento.id
+    JOIN anio ON dengue_data.anio_id = anio.id
+  `
 
   connection.query(query, (err, results) => {
     if (err) {
       console.error('Error buscando en la base de datos:', err)
       return res.status(500).send('Error buscando en la base de datos')
     }
-
-    //
     res.json(results)
   })
 })
 
 // traer los casos con un id específico
-router.get('/id/:id', (req, res) => {
-  const query = 'SELECT * FROM dengue_data WHERE id=?'
+router.get('/dengue/:id', (req, res) => {
+  const query = `
+      SELECT 
+        dengue_data.id,
+        dengue_data.cantidad,
+        departamento_residencia,
+        provincia_residencia.nombre_provincia AS provincia_residencia,
+        grupo_etario.nombre AS grupo_etario,
+        tipo_evento.nombre_evento AS tipo_evento,
+        anio.anio AS anio
+      FROM dengue_data
+      JOIN provincia_residencia ON dengue_data.provincia_residencia_id = provincia_residencia.id
+      JOIN grupo_etario ON dengue_data.grupo_etario_id = grupo_etario.id
+      JOIN tipo_evento ON dengue_data.tipo_evento_id = tipo_evento.id
+      JOIN anio ON dengue_data.anio_id = anio.id
+      WHERE dengue_data.id = ?
+    `
   const id = req.params.id
 
   connection.query(query, [id], (err, results) => {
@@ -38,7 +65,6 @@ router.get('/id/:id', (req, res) => {
       return res.status(500).send('Error buscando en la base de datos')
     }
 
-    //
     res.json(results)
   })
 })
