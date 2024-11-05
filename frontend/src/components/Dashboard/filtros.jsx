@@ -74,7 +74,6 @@ const Filtros = ({ setFiltros }) => {
                     <option value="13-24">13-24 meses</option>
                     <option value="2-4">2-4 años</option>
                     <option value="5-9">5-9 años</option>
-                    <option value="5-9">5-9 años</option>
                     <option value="10-14">10-14 años</option>
                     <option value="15-19">15-19 años</option>
                     <option value="20-24">20-24 años</option>
