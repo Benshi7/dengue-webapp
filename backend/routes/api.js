@@ -7,18 +7,17 @@ const connection = mysql.createConnection({
   user: 'root',
   database: 'dengue_database'
 })
-router.get('/saludo', (req, res) => {
+router.get('/saludo', (_req, res) => {
   res.send('Saludando desde la api 😌')
   console.error('Error buscando en la base de datos:', err)
 })
 
 // traer todos los casos
-// traer todos los casos
-router.get('/dengue', (req, res) => {
+router.get('/dengue', (_req, res) => {
   const query = `
     SELECT
       dengue_data.id,
-      dengue_data.cantidad,
+      dengue_data.cantidad, 
       departamento_residencia,
       provincia_residencia.nombre_provincia AS provincia_residencia,
       grupo_etario.nombre AS grupo_etario,
@@ -71,7 +70,7 @@ router.get('/dengue/:id', (req, res) => {
 })
 
 // seleccionar por departamento
-router.get('/departamento/:departamento', (req, res) => {
+router.get('/dengue/departamento/:departamento', (req, res) => {
   const query = 'SELECT * FROM dengue_data WHERE departamento_residencia=?'
   const departamento = req.params.departamento
 
@@ -88,23 +87,7 @@ router.get('/departamento/:departamento', (req, res) => {
 
 // seleccionar por id de provincia (entiendo que, desde el front, podremos hacer esto con un select que envia el ID en vez del texto)
 
-router.get('/provincia/:provincia', (req, res) => {
-  const query = 'SELECT * FROM dengue_data WHERE provincia_residencia_id=?'
-  const provincia = req.params.provincia
-
-  connection.query(query, [provincia], (err, results) => {
-    if (err) {
-      console.error('Error buscando en la base de datos:', err)
-      return res.status(500).send('Error buscando en la base de datos')
-    }
-
-    res.json(results)
-  })
-})
-
-// seleccionar por id de provincia (entiendo que, desde el front, podremos hacer esto con un select que envia el ID en vez del texto)
-
-router.get('/provincia/:provincia', (req, res) => {
+router.get('/dengue/provincia/:provincia', (req, res) => {
   const query = 'SELECT * FROM dengue_data WHERE provincia_residencia_id=?'
   const provincia = req.params.provincia
 
@@ -119,7 +102,7 @@ router.get('/provincia/:provincia', (req, res) => {
 })
 
 // Sumatoria de los casos totales en todo el país
-router.get('/dengue/casos_totales', (req, res) => {
+router.get('/dengue/casos_totales', (_req, res) => {
   const query = 'SELECT SUM(cantidad) AS total_casos FROM dengue_data'
 
   connection.query(query, (err, results) => {
@@ -149,7 +132,7 @@ router.get('/dengue/casos_totales/:provinciaId', (req, res) => {
 })
 
 //POST agrega un nuevo año al listado
-router.post('/:anio', (req, res) => {
+router.post('/dengue/agregar/:anio', (req, res) => {
   const query = 'INSERT INTO anio SET ?'
   const agregoAnio = {
     anio: req.params.anio
@@ -160,8 +143,8 @@ router.post('/:anio', (req, res) => {
   })
 })
 
-//PUT ingresa un nuevo caso
-router.put(
+//POST ingresa un nuevo caso
+router.post(
   '/:departamento_residencia/:provincia_residencia_id/:grupo_etario_id/:cantidad/:tipo_evento_id/:anio_id/',
   (req, res) => {
     const query = 'INSERT INTO dengue_data SET ?'
@@ -175,13 +158,34 @@ router.put(
     }
     connection.query(query, agregoContagio, error => {
       if (error) throw error
-      res.send('Se agrega un nuevo registro de contagio')
+      res.json('Se agrega un nuevo registro de contagio')
     })
   }
 )
 
+// PUT actualiza un registro de dengue_data
+router.patch('/dengue/actualizar/:id', (req, res) => {
+  const id = req.params.id
+  const actualizoContagio = { ...req.body }
+
+  if (Object.keys(actualizoContagio).length === 0) {
+    return res.status(400).send('No se proporcionaron datos para actualizar')
+  }
+
+  const query = 'UPDATE dengue_data SET ? WHERE id = ?'
+
+  connection.query(query, [actualizoContagio, id], (error, _results) => {
+    if (error) {
+      console.error('Error actualizando el registro:', error)
+      return res.status(500).send('Error actualizando el registro')
+    }
+
+    res.send('Se actualizó un registro de contagio')
+  })
+})
+
 //DELETE borra por id casos de la DDBB
-router.delete('/:id/', (req, res) => {
+router.delete('/dengue/eliminar/:id/', (req, res) => {
   const borroRegistro = req.params.id
   const query = 'DELETE FROM dengue_data WHERE id=?'
   connection.query(query, [borroRegistro], error => {
@@ -191,7 +195,7 @@ router.delete('/:id/', (req, res) => {
 })
 
 // Sumatoria de los casos totales en todo el país
-router.get('/dengue/casos_totales', (req, res) => {
+router.get('/dengue/casos_totales', (_req, res) => {
   const query = 'SELECT SUM(cantidad) AS total_casos FROM dengue_data'
 
   connection.query(query, (err, results) => {
@@ -221,7 +225,7 @@ router.get('/dengue/casos_totales/:provinciaId', (req, res) => {
 })
 
 // este endpoint calcula las estadísticas de los casos de dengue y zika, juntos
-router.get('/dengue/estadisticas', async (req, res) => {
+router.get('/dengue/estadisticas', async (_req, res) => {
   try {
     const queries = {
       totalDengue: `
