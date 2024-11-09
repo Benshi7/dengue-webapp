@@ -118,13 +118,13 @@ router.post('/:anio', (req, res) => {
     anio: req.params.anio};    
     connection.query(query, agregoAnio, error => {     
       if (error) throw error;     
-      res.send('Se incluyo un nuevo año');   
+      res.json('Se incluyo un nuevo año');   
     }); 
   });
 
 
-  //PUT ingresa un nuevo caso
-  router.put('/:departamento_residencia/:provincia_residencia_id/:grupo_etario_id/:cantidad/:tipo_evento_id/:anio_id/', (req, res) => {   
+  //POST Ingresa un nuevo caso
+  router.post('/:departamento_residencia/:provincia_residencia_id/:grupo_etario_id/:cantidad/:tipo_evento_id/:anio_id/', (req, res) => {   
     const query = 'INSERT INTO dengue_data SET ?';    
     const agregoContagio = {         
       departamento_residencia: req.params.departamento_residencia,
@@ -136,7 +136,7 @@ router.post('/:anio', (req, res) => {
     };    
       connection.query(query, agregoContagio, error => {     
         if (error) throw error;     
-        res.send('Se agrega un nuevo registro de contagio');   
+        res.json('Se agrega un nuevo registro de contagio');   
       }); 
     });
 
@@ -147,10 +147,9 @@ router.post('/:anio', (req, res) => {
     const query = 'DELETE FROM dengue_data WHERE id=?' 
     connection.query(query, [borroRegistro], (error) => {    
         if (error) throw error;     
-        res.send('Se borra registro de la Base de Datos');   
+        res.json('Se borra registro de la Base de Datos');   
       }); 
     });
-
 
 
 module.exports = router
