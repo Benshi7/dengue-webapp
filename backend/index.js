@@ -3,6 +3,15 @@ const cors = require('cors')
 const helmet = require('helmet')
 
 const app = express()
+
+const swaggerUIPath = require('swagger-ui-express')
+const swaggerjsonFilePath = require('./swagger.json')
+app.use(
+  '/api-docs',
+  swaggerUIPath.serve,
+  swaggerUIPath.setup(swaggerjsonFilePath)
+)
+
 app.use(cors())
 app.use(helmet())
 app.use(express.json())
