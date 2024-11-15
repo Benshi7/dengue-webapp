@@ -13,13 +13,13 @@ const ResultadosTabla = ({ datos }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {datos.length > 0 ? (
+                    {datos && datos.length > 0 ? (
                         datos.map((registro, index) => (
                             <tr key={index}>
-                                <td>{registro.provincia}</td>
-                                <td>{registro.enfermedad}</td>
-                                <td>{registro.rangoEtario}</td>
-                                <td>{registro.casosTotales}</td>
+                                <td>{registro.provincia_residencia_id}</td>
+                                <td>{registro.tipo_evento_id}</td>
+                                <td>{registro.grupo_etario_id}</td>
+                                <td>{registro.cantidad}</td>
                             </tr>
                         ))
                     ) : (
