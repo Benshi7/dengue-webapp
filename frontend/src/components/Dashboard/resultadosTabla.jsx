@@ -7,7 +7,7 @@ const ResultadosTabla = ({ datos }) => {
                 <thead>
                     <tr>
                         <th>Provincia</th>
-                        <th>Enfermedad</th>
+                        <th>Tipo de Evento</th>
                         <th>Rango Etario</th>
                         <th>Casos Totales</th>
                     </tr>
