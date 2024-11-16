@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Filtros from './filtros';
 import EstadisticasCasos from './estadisticasCasos';
-import ResultadosTabla from './resultadosTabla'
+import ResultadosTabla from './resultadosTabla';
 import axios from 'axios';
 
 const DashboardPage = () => {
     const [filtros, setFiltros] = useState({
         provincia: '',
-        enfermedad: '',
+        tipoEvento: '',
         rangoEtario: ''
     });
     const [datos, setDatos] = useState([]);
