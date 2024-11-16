@@ -3,14 +3,14 @@ import React, { useState } from 'react';
 const Filtros = ({ setFiltros }) => {
     const [provincia, setProvincia] = useState('');
     const [rangoEtario, setRangoEtario] = useState('');
-    const [enfermedad, setEnfermedad] = useState('');
+    const [tipoEvento, setTipoEvento] = useState('');
 
     const handleFilterChange = () => {
         // Actualiza el estado de filtros en el componente padre
         setFiltros({
             provincia,
             rangoEtario,
-            enfermedad
+            tipoEvento
         });
     };
 
@@ -84,20 +84,20 @@ const Filtros = ({ setFiltros }) => {
                 </select>
             </div>
 
-            {/* Filtro de Enfermedad */}
+            {/* Filtro de Tipo de Evento */}
             <div className="form-control w-full max-w-xs">
                 <label className="label">
-                    <span className="label-text">Enfermedad</span>
+                    <span className="label-text">Tipo de Evento</span>
                 </label>
                 <select 
                     className="select select-bordered"
-                    value={enfermedad}
+                    value={tipoEvento}
                     onChange={(e) => {
-                        setEnfermedad(e.target.value);
+                        setTipoEvento(e.target.value);
                         handleFilterChange();
                     }}
                 >
-                    <option value="">Todas</option>
+                    <option value="">Todos</option>
                     <option value="Dengue">Dengue</option>
                     <option value="Zika">Zika</option>
                 </select>
@@ -107,3 +107,4 @@ const Filtros = ({ setFiltros }) => {
 };
 
 export default Filtros;
+
