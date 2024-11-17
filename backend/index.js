@@ -21,3 +21,5 @@ app.use('/', apiRoutes)
 app.listen(PORT, () => {
   console.log(`Server is running in ${PORT}`)
 })
+
+module.exports = app

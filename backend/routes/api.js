@@ -52,6 +52,10 @@ router.get('/departamento/:departamento', (req, res) => {
       return res.status(500).send('Error buscando en la base de datos')
     }
 
+//    if (!results || results.length === 0) {
+//      return res.status(404).send('Departamento no encontrado');
+//    }
+
     res.json(results)
   })
 })
@@ -112,14 +116,20 @@ router.get('/dengue/casos_totales/:provinciaId', (req, res) => {
 
 
 //POST agrega un nuevo año al listado
-router.post('/:anio', (req, res) => {   
-  const query = 'INSERT INTO anio SET ?';    
-  const agregoAnio = {          
-    anio: req.params.anio};    
-    connection.query(query, agregoAnio, error => {     
-      if (error) throw error;     
-      res.json('Se incluyo un nuevo año');   
-    }); 
+  router.post('/:anio', (req, res) => {
+    const { anio } = req.params;
+    
+    if (!Number.isInteger(parseInt(anio))) {
+      return res.status(400).json({ error: 'El año debe ser un número entero' });
+    }
+    
+    const query = 'INSERT INTO anio SET ?';
+    const agregoAnio = { anio: anio };
+    
+    connection.query(query, agregoAnio, error => {
+      if (error) throw error;
+      res.json({ message: 'Se incluyo un nuevo año' });
+    });
   });
 
 
