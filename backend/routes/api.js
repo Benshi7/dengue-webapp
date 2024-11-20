@@ -8,8 +8,12 @@ const connection = mysql.createConnection({
   database: 'dengue_database'
 })
 router.get('/saludo', (_req, res) => {
-  res.send('Saludando desde la api 😌')
+  res.status(200).json({ message: 'Saludando desde la api 😌' })
   console.error('Error buscando en la base de datos:', err)
+})
+
+router.get('/hello', (req, res) => {
+  res.status(200).json({ message: 'Hello, World!' })
 })
 
 // traer todos los casos
@@ -17,7 +21,7 @@ router.get('/dengue', (_req, res) => {
   const query = `
     SELECT
       dengue_data.id,
-      dengue_data.cantidad, 
+      dengue_data.cantidad,
       departamento_residencia,
       provincia_residencia.nombre_provincia AS provincia_residencia,
       grupo_etario.nombre AS grupo_etario,
@@ -40,9 +44,14 @@ router.get('/dengue', (_req, res) => {
 })
 
 // traer los casos con un id específico
-router.get('/dengue/:id', (req, res) => {
+router.get('/dengue/id/:id', (req, res) => {
+  const id = parseInt(req.params.id)
+  if (isNaN(id)) {
+    return res.status(400).json({ error: 'ID inválido: debe ser un número.' })
+  }
+
   const query = `
-      SELECT 
+      SELECT
         dengue_data.id,
         dengue_data.cantidad,
         departamento_residencia,
@@ -57,15 +66,23 @@ router.get('/dengue/:id', (req, res) => {
       JOIN anio ON dengue_data.anio_id = anio.id
       WHERE dengue_data.id = ?
     `
-  const id = req.params.id
 
   connection.query(query, [id], (err, results) => {
     if (err) {
       console.error('Error buscando en la base de datos:', err)
-      return res.status(500).send('Error buscando en la base de datos')
+      return res
+        .status(500)
+        .json({ error: 'Error interno al buscar en la base de datos.' })
     }
 
-    res.json(results)
+    // Feedback por si el id no existe en la base o fue borrado.
+    if (results.length === 0) {
+      return res
+        .status(404)
+        .json({ error: 'No se encontró un caso de dengue con ese ID.' })
+    }
+
+    res.json(results[0]) // Asumimos que el id es único, porque debería.
   })
 })
 
@@ -98,20 +115,6 @@ router.get('/dengue/provincia/:provincia', (req, res) => {
     }
 
     res.json(results)
-  })
-})
-
-// Sumatoria de los casos totales en todo el país
-router.get('/dengue/casos_totales', (_req, res) => {
-  const query = 'SELECT SUM(cantidad) AS total_casos FROM dengue_data'
-
-  connection.query(query, (err, results) => {
-    if (err) {
-      console.error('Error buscando en la base de datos:', err)
-      return res.status(500).send('Error buscando en la base de datos')
-    }
-
-    res.json({ total_casos: results[0].total_casos })
   })
 })
 
@@ -283,10 +286,14 @@ router.get('/dengue/estadisticas', async (_req, res) => {
     res.status(500).send('Error interno en el servidor')
   }
 })
+
 // este endpoint es igual que el de arriba pero le podés mandar evento_id por si necesitaras separarlo
 router.get('/dengue/estadisticas/:evento_id', async (req, res) => {
   try {
     const { evento_id } = req.params
+    if (isNaN(evento_id)) {
+      return res.status(400).send('El ID del evento debe ser un número válido')
+    }
 
     const queries = {
       totalCasos: `
@@ -339,6 +346,26 @@ router.get('/dengue/estadisticas/:evento_id', async (req, res) => {
     console.error('Error general al calcular estadísticas específicas:', error)
     res.status(500).send('Error interno en el servidor')
   }
+})
+
+router.get('/dengue/casos-por-anio', (req, res) => {
+  const query = `
+    SELECT anio.anio AS anio, SUM(dengue_data.cantidad) AS total_casos
+    FROM dengue_data
+    JOIN anio ON dengue_data.anio_id = anio.id
+    GROUP BY anio.anio
+    ORDER BY anio.anio
+  `
+
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error('Error buscando en la base de datos:', err)
+      return res.status(500).send('Error calculando casos por año')
+    }
+
+    // Devuelve los resultados sin el reduce
+    res.json(results)
+  })
 })
 
 module.exports = router
