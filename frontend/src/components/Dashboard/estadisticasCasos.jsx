@@ -2,35 +2,7 @@
 
 import { useEffect, useState } from 'react'
 
-/* import { useEffect, useState } from 'react'
-import axios from 'axios'
- */
 const EstadisticasCasos = ({ estadisticas }) => {
-  /*   const [estadisticas, setEstadisticas] = useState({}) */
-
-  /*   useEffect(() => {
-    if (tipoEvento) {
-      axios
-        .get(`https://localhost:5000/api/dengue/estadisticas/${tipoEvento}`)
-        .then(response => {
-          setEstadisticas(response.data)
-          // Calcular los totales específicos
-          const casosTotales = response.data.totalCasos[0].total_casos 
-          const provinciasAfectadas = response.data.casosPorProvincia.length
-          const promedioPorProvincia = casosTotales / provinciasAfectadas
-
-          setTotales({
-            casosTotales,
-            provinciasAfectadas,
-            promedioPorProvincia
-          })
-        })
-        .catch(error =>
-          console.error('Error al obtener las estadísticas:', error)
-        )
-    }
-  }, [provincia, tipoEvento, setTotales]) */
-
   const [total, setTotal] = useState(['', 1, 2])
 
   const {
