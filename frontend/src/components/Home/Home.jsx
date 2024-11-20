@@ -4,8 +4,9 @@ const Home = () => {
   return (
     <main>
       <ThemeController />
-      <h1 className='text-4xl font-bold'>Dengue Dataset</h1>
-      <button className='btn btn-primary mt-4'>Botón de Ejemplo</button>
+      <section className='2xl:pt-22 xl:pt-20 md:pt-12 sm:pt-4 '>
+        <h1 className='text-4xl font-bold pb-4'>Dengue Dataset</h1>
+      </section>
     </main>
   )
 }

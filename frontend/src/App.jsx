@@ -1,13 +1,15 @@
 import './App.css'
 import Home from './components/Home/Home'
-import ChartDashBoard from './components/Estadisticas/ChartDashBoard'
+import DashboardPage from './components/Dashboard/DashboardPage'
 
 function App () {
   return (
-    <>
+    <div>
       <Home />
-      <ChartDashBoard />
-    </>
+      <div className='App'>
+        <DashboardPage />
+      </div>
+    </div>
   )
 }
 
