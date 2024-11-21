@@ -17,13 +17,13 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: url("./assets/Login.jpg") no-repeat;
+  background: url("./assets/fondoblanco.jpg") no-repeat;
   background-size: cover;
   background-position: center;
 }
 
 .registerpage {
-  background: url('./assets/Login.jpg') no-repeat center center;
+  background: url('./assets/fondoblanco.jpg') no-repeat center center;
   background-size: cover;
   height: 100vh;
   display: flex;
@@ -32,7 +32,7 @@
 }
 
 .loginpage {
-  background: url('./assets/Login.jpg') no-repeat center center;
+  background: url('./assets/fondoblanco.jpg') no-repeat center center;
   background-size: cover;
   height: 100vh;
   display: flex;

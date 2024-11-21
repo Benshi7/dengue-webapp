@@ -20,7 +20,7 @@ const App = () => {
                 <div className="container mx-auto flex justify-between items-center">
                     <a href="#" className="text-white font-bold text-xl">Mi Web</a>
                     <div className="dropdown">
-                        <h2>Hola hay que borrar</h2>
+
                         <label tabIndex={0} className="btn btn-primary btn-sm lg:hidden">
                             ☰
                         </label>

@@ -137,6 +137,8 @@ const LoginForm = ({ switchToRegister }) => {
                     </button>
                 </p>
             </div>
+
+
         </div>
     );
 };
