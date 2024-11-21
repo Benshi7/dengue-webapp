@@ -189,65 +189,65 @@ export default function Admin() {
 
   const grupEtario = [
     {
-      id:1,
-      name:'Menor que 1 año',
+      id: 1,
+      name: 'Menor que 1 año',
     },
     {
-      id:2,
-      name:'Igual a 1 año',
+      id: 2,
+      name: 'Igual a 1 año',
     },
     {
-      id:3,
-      name:'De 2 a 4 años',
+      id: 3,
+      name: 'De 2 a 4 años',
     },
     {
-      id:4,
-      name:'De 5 a 9 años',
+      id: 4,
+      name: 'De 5 a 9 años',
     },
     {
       id: 5,
       name: 'De 10 a 14 años'
     },
     {
-      id:6,
-      name:'De 15 a 19 años',
+      id: 6,
+      name: 'De 15 a 19 años',
     },
     {
-      id:7,
-      name:'De 20 a 24 años',
+      id: 7,
+      name: 'De 20 a 24 años',
     },
     {
-      id:8,
-      name:'De 25 a 34 años',
+      id: 8,
+      name: 'De 25 a 34 años',
     },
     {
-      id:9,
-      name:'De 35 a 44 años',
+      id: 9,
+      name: 'De 35 a 44 años',
     },
     {
-      id:10,
-      name:'De 45 a 64 años',
+      id: 10,
+      name: 'De 45 a 64 años',
     },
     {
-      id:11,
-      name:'Mayor o igual a 65 años',
+      id: 11,
+      name: 'Mayor o igual a 65 años',
     },
     {
       id: 12,
       name: 'Posneonato (29 hasta 365 días)'
     },
     {
-      id:13,
-      name:'Neonato(hasta 28 días)',
+      id: 13,
+      name: 'Neonato(hasta 28 días)',
     },
-    
+
     {
-      id:14,
-      name:'Edad Sin Esp.',
+      id: 14,
+      name: 'Edad Sin Esp.',
     },
     {
-      id:15,
-      name:'De 13 a 24 meses'
+      id: 15,
+      name: 'De 13 a 24 meses'
     }
   ]
 
@@ -429,7 +429,7 @@ export default function Admin() {
     ).join('');
 
     Swal.fire({
-      title: "Agregar caso",
+      title: "Modificar caso",
       html: `
       <div class='flex flex-col gap-5'>
         <input type='text' id='departamento' value=${dep} placeholder='Departamento' class='swal2-input w-full m-0'>
@@ -482,6 +482,51 @@ export default function Admin() {
           title: `Caso Modificado`,
           text: `Departamento: ${departamento}, Provincia: ${provincia}, Rango Etario: ${grupoEtario}, Cantidad: ${cantidad}, Evento: ${evento}, Año: ${anio}`
         });
+        const response = fetch(`http://localhost:5000/api/dengue/actualizar/${id}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            departamento_residencia: departamento,
+            provincia_residencia_id: provincia,
+            grupo_etario_id: grupoEtario,
+            cantidad: cantidad,
+            tipo_evento_id: evento,
+            anio_id: anio
+          })
+        })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(`Error en la petición: ${response.status}`);
+            }
+        
+            // Intentamos convertir la respuesta a JSON
+            return response.text().then(text => {
+              try {
+                return JSON.parse(text); // Intentamos parsear la respuesta como JSON
+              } catch (e) {
+                // Si la respuesta no es JSON, la devolvemos como texto
+                return { message: text };
+              }
+            });
+          })
+          .then(data => {
+            Swal.fire({
+              title: `Caso Modificado`,
+              text: `Datos actualizados correctamente: ${JSON.stringify(data)}`,
+              icon: "success"
+            });
+          })
+          .catch(error => {
+            console.error('Hubo un problema con la solicitud PATCH:', error);
+            Swal.fire({
+              title: "Error",
+              text: `Hubo un problema al actualizar los datos.`,
+              icon: "error"
+            });
+          });
+        
 
         // Aquí puedes hacer una llamada a la API con los datos si es necesario.
       }
