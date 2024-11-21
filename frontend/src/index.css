@@ -106,14 +106,14 @@
 }
 
 .auth-facebook {
-  background-color: #041396;
+  background-color: #131953;
   color: #ffffff;
  
   
 }
 
 .auth-facebook:hover {
-  background-color: #07268d;
+  background-color: #263975;
   
 }
 
@@ -154,7 +154,7 @@
   padding: 10px 20px; 
   text-align: center; 
   text-decoration: none; 
-  margin: 5px 260px; 
+  margin: 5px 20px; 
   cursor: pointer; 
   border-radius: 5px; 
   transition: background-color 0.3s ease; 

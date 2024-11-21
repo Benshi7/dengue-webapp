@@ -118,7 +118,7 @@ const LoginForm = ({ switchToRegister }) => {
                             <input type="checkbox" />
                             Lembre de mim
                         </label>
-                        <a href="#">Esqueceu sua senha?</a>
+                        <a href="#">¿Olvidaste tu contraseña?</a>
                     </div>
 
 
