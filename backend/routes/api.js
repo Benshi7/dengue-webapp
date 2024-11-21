@@ -7,6 +7,7 @@ const connection = mysql.createConnection({
   user: 'root',
   database: 'dengue_database'
 })
+
 router.get('/saludo', (_req, res) => {
   res.status(200).json({ message: 'Saludando desde la api 😌' })
   res.status(200).json({ message: 'Saludando desde la api 😌' })

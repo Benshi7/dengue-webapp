@@ -6,7 +6,7 @@ import Estimaciones from '../src/components/Estadisticas/Estimaciones'
 const transformedData = data => {
   return data.map((item, index) => ({
     ...item,
-    total_casos: parseInt(item.total_casos, 10),
+    total_casos: parseInt(item.total_casos),
     index: index + 1
   }))
 }
@@ -30,6 +30,7 @@ describe('Test el componente Estimaciones', () => {
         `La longitud de transformed es: ${transformed.length}, y la de items: ${items.length}. Deberían coincidir.`
       )
 
+      // También, el contenido de cada item debería ser el mismo que el de la api transformado (index y total_casos)
       expect(items[0].textContent).toBe(
         `${transformed[0].index}. ${transformed[0].total_casos}`
       )

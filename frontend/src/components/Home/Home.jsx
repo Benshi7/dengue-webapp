@@ -1,13 +1,17 @@
-import ThemeController from '../ThemeController/ThemeController'
+import Navbar from './Navbar'
 
-const Home = () => {
+// eslint-disable-next-line react/prop-types
+const Home = ({ title, children }) => {
   return (
-    <main>
-      <ThemeController />
-      <section className='2xl:pt-22 xl:pt-20 md:pt-12 sm:pt-4 '>
-        <h1 className='text-4xl font-bold pb-4'>Dengue Dataset</h1>
-      </section>
-    </main>
+    <>
+      <Navbar />
+      <main>
+        <section className='2xl:pt-16 xl:pt-12 md:pt-8 sm:pt-4 '>
+          <h1 className='text-4xl font-bold pb-4'>{title}</h1>
+          {children}
+        </section>
+      </main>
+    </>
   )
 }
 

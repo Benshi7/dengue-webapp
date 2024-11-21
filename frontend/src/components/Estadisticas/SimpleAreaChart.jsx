@@ -1,4 +1,3 @@
-import React from 'react'
 import {
   AreaChart,
   Area,
@@ -41,8 +40,8 @@ const SimpleAreaChart = () => {
     }
   ]
   return (
-    <div className='h-[500px] w-[500px] items-center mx-auto'>
-      <ResponsiveContainer width='100%' height='100%'>
+    <div className='w-[90%] h-[90%] min-w-[400px] min-h-[400px] mx-auto'>
+      <ResponsiveContainer className=' min-w-[90%] min-h-[90%]'>
         <AreaChart
           width={500}
           height={400}
