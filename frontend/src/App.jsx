@@ -1,12 +1,19 @@
-import './App.css'
-import Home from './components/Home/Home'
+import React, { useState } from 'react';
+import LoginForm from './components/LoginForm';
+import RegisterForm from './components/RegisterForm';
 
-function App () {
+const App = () => {
+  const [isRegistering, setIsRegistering] = useState(false);
+
   return (
-    <>
-      <Home />
-    </>
-  )
-}
+    <div>
+      {isRegistering ? (
+        <RegisterForm switchToLogin={() => setIsRegistering(false)} />
+      ) : (
+        <LoginForm switchToRegister={() => setIsRegistering(true)} />
+      )}
+    </div>
+  );
+};
 
-export default App
+export default App;
