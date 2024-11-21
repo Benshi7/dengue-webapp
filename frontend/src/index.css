@@ -2,14 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+
+
 .logincard{
   width: 450px;
   background: rgba(255, 255, 255, 0.15);
@@ -104,4 +98,87 @@
   border: 1px solid rgba(194, 144, 8, 0.5);
   flex: 1;
   
+}
+
+.auth-google:hover {
+  background-color: #cea916;
+  color: #ffffff;
+}
+
+.auth-facebook {
+  background-color: #060c44;
+  color: #ffffff;
+ 
+  
+}
+
+.auth-facebook:hover {
+  background-color: #07268d;
+  
+}
+
+.logincard .auth-button{
+  position: relative;
+  width: 40%;
+  height: 30px;
+  margin: 30px 10px;
+  display: inline-block;
+ 
+}
+
+.logincard .recall-forget {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  margin: -1px 0 15px;
+}
+
+.recall-forget label input {
+  accent-color: #fff;
+  margin-right: 4px;
+}
+
+.recall-forget a {
+  color: #f3f1f1;
+  text-decoration: none;
+}
+
+.recall-forget a:hover {
+  text-decoration: underline;
+}
+
+.btn-primary {
+  background-color: #cfa109; 
+  color: white; 
+  border: none; 
+  padding: 10px 20px; 
+  text-align: center; 
+  text-decoration: none; 
+  margin: 8px 150px; 
+  cursor: pointer; 
+  border-radius: 5px; 
+  transition: background-color 0.3s ease; 
+}
+
+.btn-primary:hover {
+  background-color: #ccb77e; 
+}
+
+
+
+/* Botón de Registrarse */
+.text-blue-500 {
+  color: #151616; 
+  margin: 5px 10px; 
+}
+
+.text-blue-500:hover {
+  text-decoration: underline; 
+}
+
+
+.text-center{
+  color: #151616; 
+  margin: 5px 50px; 
+  font-size: 13px;
 }
