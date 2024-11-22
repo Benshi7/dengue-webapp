@@ -3,6 +3,7 @@ import "../index.css";
 import "../App.css";
 import { getAuth, signInWithPopup, GoogleAuthProvider, FacebookAuthProvider } from "firebase/auth";
 import { initializeApp } from "firebase/app";
+import '@testing-library/jest-dom';
 
 
 const firebaseConfig = {
