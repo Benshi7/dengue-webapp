@@ -612,7 +612,7 @@ export default function Admin() {
                 <th >Grupo Etario</th>
                 <th >Tipo</th>
                 <th >Cantidad</th>
-                <th >Acciones</th>
+                <th className='text-center'>Acciones</th>
               </tr>
             </thead>
             <tbody>
