@@ -1,9 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-<<<<<<< HEAD
 import './App.css'
-=======
->>>>>>> 8bdca3cf6b5f5c826020a6ca72d761db35dc72a3
-
 import Home from './components/Home/Home'
 import DashboardPage from './components/Dashboard/DashboardPage'
 import ChartDashBoard from './components/Estadisticas/ChartDashBoard'
