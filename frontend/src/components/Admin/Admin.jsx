@@ -701,7 +701,7 @@ export default function Admin() {
                 <button
                   key={page}
                   onClick={() => paginate(page)}
-                  className={`px-3 py-1 ${currentPage === page ? 'active text-2xl text-gray-900 bg-green-300 rounded-full' : 'text-gray-600'}`}
+                  className={` ${currentPage === page ? 'active text-2xl text-gray-900 bg-green-300 rounded-full' : 'text-gray-600'}`}
                 >
                   {page}
                 </button>
