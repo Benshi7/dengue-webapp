@@ -701,7 +701,7 @@ export default function Admin() {
                 <button
                   key={page}
                   onClick={() => paginate(page)}
-                  className={`px-3 py-1 ${currentPage === page ? 'active text-2xl text-gray-900' : 'text-gray-600'}`}
+                  className={`px-3 py-1 ${currentPage === page ? 'active text-2xl text-gray-900 bg-green-300 rounded-full' : 'text-gray-600'}`}
                 >
                   {page}
                 </button>
@@ -715,7 +715,7 @@ export default function Admin() {
           <button
             onClick={() => paginate(currentPage + 1)}
             disabled={currentPage === totalPages}
-            className={`px-3 py-1 ${currentPage === totalPages ? 'text-gray-400' : 'text-gray-900'}`}
+            className={`px-3 py-1 ${currentPage === totalPages ? 'text-gray-400' : 'text-gray-900 '}`}
           >
             &#8594; {/* Flecha derecha */}
           </button>
