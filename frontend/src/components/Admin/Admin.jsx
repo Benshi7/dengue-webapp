@@ -12,7 +12,7 @@ export default function Admin() {
   const [anio, setAnio] = useState([]);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(15);
+  const [itemsPerPage] = useState(12);
 
   const prov = [
     {
@@ -307,7 +307,7 @@ export default function Admin() {
   const cambioProvincia = (event) => {
     event.preventDefault()
     setProvValue(event.target.value);
-    setDeptValue(event.target.value)
+    setDeptValue(0)
   };
 
   const cambioDepartamento = (event) => {
@@ -412,27 +412,33 @@ export default function Admin() {
   };
 
   const modificar = async (id, dep, provi, etario, cant, event, ano) => {
+    // Opciones de Provincias
     const provinciasOpciones = prov.map(pro =>
       `<option value="${pro.id}" ${pro.id === provi ? 'selected' : ''}>${pro.name}</option>`
     ).join('');
-    console.log(edades);
 
+    // Opciones de Grupo Etario
     const grupoEtarioOpciones = edades.map(edad =>
-      `<option value="${edad}" ${edad[0] == etario ? 'selected' : ''}>${grupEtario.find(p => p.id == edad)?.name}</option>`
-
-    ).join('');
-    const grupoEventoOpciones = evento.map(evento =>
-      `<option value="${evento}" ${evento[0] == event ? 'selected' : ''}>${event == 1 ? 'Dengue' : 'Chikungunya'}</option>`
-    ).join('');
-    const totalAnio = anio.map(año =>
-      `<option value="${año}" ${año[0] == ano ? 'selected' : ''}>${anios.find(p => p.id == ano)?.name}</option>`
+      `<option value="${edad}" ${edad == etario ? 'selected' : ''}>${grupEtario.find(p => p.id == edad)?.name}</option>`
     ).join('');
 
+    // Opciones de Evento
+    const grupoEventoOpciones = evento.map(ev => {
+      const nombreEvento = ev == 1 ? 'Dengue' : ev == 2 ? 'Chikungunya' : 'Otro';
+      return `<option value="${ev}" ${ev == event ? 'selected' : ''}>${nombreEvento}</option>`;
+    }).join('');
+
+    // Opciones de Año
+    const totalAnio = anios.map(a => 
+      `<option value="${a.id}" ${a.id == ano ? 'selected' : ''}>${a.name}</option>`
+    ).join('');
+
+    // Renderización del Modal
     Swal.fire({
       title: "Modificar caso",
       html: `
       <div class='flex flex-col gap-5'>
-        <input type='text' id='departamento' value=${dep} placeholder='Departamento' class='swal2-input w-full m-0'>
+        <input type='text' id='departamento' value="${dep}" placeholder='Departamento' class='swal2-input w-full m-0'>
         <select id="provincia" class="swal2-input w-full mt-5" >
           <option value="" disabled selected>Elige una provincia</option>
           ${provinciasOpciones}
@@ -443,7 +449,7 @@ export default function Admin() {
           <option value="" disabled selected>Elige rango etario</option>
           ${grupoEtarioOpciones}
         </select>
-        <input value=${cant} type='text' id='cantidad' placeholder='Cantidad' class='swal2-input w-full mt-5 m-0'>
+        <input value="${cant}" type='text' id='cantidad' placeholder='Cantidad' class='swal2-input w-full mt-5 m-0'>
       </div>
       <div class='flex gap-5'>
         <select id="evento" class="swal2-input w-full mt-5">
@@ -500,7 +506,7 @@ export default function Admin() {
             if (!response.ok) {
               throw new Error(`Error en la petición: ${response.status}`);
             }
-        
+
             // Intentamos convertir la respuesta a JSON
             return response.text().then(text => {
               try {
@@ -526,7 +532,7 @@ export default function Admin() {
               icon: "error"
             });
           });
-        
+
 
         // Aquí puedes hacer una llamada a la API con los datos si es necesario.
       }
@@ -563,9 +569,9 @@ export default function Admin() {
   };
   return (
     <div>
-      <div className='flex justify-between mx-52'>
+      <div className='flex justify-between lg:mx-52 '>
         <div className='flex gap-5'>
-          <select className="select select-bordered w-full max-w-xs" value={provValue} onChange={cambioProvincia}>
+          <select className="select select-bordered w-full max-w-xs text-sm" value={provValue} onChange={cambioProvincia}>
             <option value="0" disabled>Seleccionar provincia</option>
             {prov.map((prov) => (
               <option key={prov.id} value={prov.id}>{prov.name}</option>
@@ -581,7 +587,7 @@ export default function Admin() {
 
 
 
-        <div className='flex items-center text-green-800'>
+        <div className='flex items-center text-green-800 ms-5'>
           <button href="" className='flex' onClick={agregar}>
             <h2>Agregar</h2>
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -597,41 +603,70 @@ export default function Admin() {
 
       <div>
         <div className="overflow-x-auto">
-          <table className="table">
+          <table className="table w-full border-collapse mt-5">
             <thead>
-              <tr>
-                <th></th>
-                <th>Año</th>
-                <th>Provincia</th>
-                <th>Departamento</th>
-                <th>Grupo Etario</th>
-                <th>Tipo</th>
-                <th>Cantida</th>
-                <th>Acciones</th>
+              <tr className="bg-gray-200 lg:grid lg:grid-cols-7 hidden ">
+                <th >Año</th>
+                <th >Provincia</th>
+                <th >Departamento</th>
+                <th >Grupo Etario</th>
+                <th >Tipo</th>
+                <th >Cantidad</th>
+                <th >Acciones</th>
               </tr>
             </thead>
             <tbody>
-              {currentItems.map((item) => (
-                <tr key={item.id}>
-                  <th></th>
-                  <td>{anios.find(p => p.id === item.anio_id)?.name || "Provincia desconocida"}</td>
-                  <td>{prov.find(p => p.id === item.provincia_residencia_id)?.name || "Provincia desconocida"}</td>
-                  <td>{item.departamento_residencia}</td>
-                  <td>{grupEtario.find(p => p.id === item.grupo_etario_id)?.name}</td>
-                  <td>{item.tipo_evento_id == 1 ? 'Dengue' : 'Chikungunya'}</td>
-                  <td>{item.cantidad}</td>
-                  <td className="flex gap-4">
-                    <button onClick={() => modificar(item.id, item.departamento_residencia, item.provincia_residencia_id, item.grupo_etario_id, item.cantidad, item.tipo_evento_id, item.anio_id)}>
-                      <svg className='h-6 text-green-800' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              {currentItems.map((item, index) => (
+                <tr
+                  key={item.id}
+                  className={`grid lg:grid-cols-7 grid-cols-6 gap-2 ${index % 2 === 0 ? 'bg-blue-100' : 'bg-green-100'
+                    } hover:bg-gray-400 `}
+                >
+                  <td className="">{anios.find(p => p.id === item.anio_id)?.name || "Año desconocido"}</td>
+                  <td className="p-2 ">{prov.find(p => p.id === item.provincia_residencia_id)?.name || "Provincia desconocida"}</td>
+                  <td className=" ">{item.departamento_residencia}</td>
+                  <td className=" hidden lg:block">{grupEtario.find(p => p.id === item.grupo_etario_id)?.name}</td>
+                  <td className=" ">{item.tipo_evento_id === 1 ? 'Dengue' : 'Chikungunya'}</td>
+                  <td className=" ">{item.cantidad}</td>
+                  <td className=" flex lg:gap-2 gap-1 justify-end lg:justify-center">
+                    <button
+                      onClick={() =>
+                        modificar(
+                          item.id,
+                          item.departamento_residencia,
+                          item.provincia_residencia_id,
+                          item.grupo_etario_id,
+                          item.cantidad,
+                          item.tipo_evento_id,
+                          item.anio_id
+                        )
+                      }
+                    >
+                      <svg
+                        className="lg:h-6 h-5 text-green-800"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
                         <path d="M12 20h9" />
                         <path d="M16.5 3.5l4 4-11 11h-4v-4l11-11z" />
                         <path d="M1 21h4l11-11-4-4L1 17v4z" />
                       </svg>
                     </button>
                     <button onClick={() => eliminar(item.id)}>
-                      <svg className='h-6 text-red-800' id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 110.61 122.88">
-                        <title>trash</title>
-                        <path fill="currentColor" d="M39.27,58.64a4.74,4.74,0,1,1,9.47,0V93.72a4.74,4.74,0,1,1-9.47,0V58.64Zm63.6-19.86L98,103a22.29,22.29,0,0,1-6.33,14.1,19.41,19.41,0,0,1-13.88,5.78h-45a19.4,19.4,0,0,1-13.86-5.78l0,0A22.31,22.31,0,0,1,12.59,103L7.74,38.78H0V25c0-3.32,1.63-4.58,4.84-4.58H27.58V10.79A10.82,10.82,0,0,1,38.37,0H72.24A10.82,10.82,0,0,1,83,10.79v9.62h23.35a6.19,6.19,0,0,1,1,.06A3.86,3.86,0,0,1,110.59,24c0,.2,0,.38,0,.57V38.78Zm-9.5.17H17.24L22,102.3a12.82,12.82,0,0,0,3.57,8.1l0,0a10,10,0,0,0,7.19,3h45a10.06,10.06,0,0,0,7.19-3,12.8,12.8,0,0,0,3.59-8.1L93.37,39ZM71,20.41V12.05H39.64v8.36ZM61.87,58.64a4.74,4.74,0,1,1,9.47,0V93.72a4.74,4.74,0,1,1-9.47,0V58.64Z" />
+                      <svg
+                        className="lg:h-6 h-5 text-red-800"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 110.61 122.88"
+                      >
+                        <path
+                          fill="currentColor"
+                          d="M39.27,58.64a4.74,4.74,0,1,1,9.47,0V93.72a4.74,4.74,0,1,1-9.47,0V58.64Zm63.6-19.86L98,103a22.29,22.29,0,0,1-6.33,14.1,19.41,19.41,0,0,1-13.88,5.78h-45a19.4,19.4,0,0,1-13.86-5.78l0,0A22.31,22.31,0,0,1,12.59,103L7.74,38.78H0V25c0-3.32,1.63-4.58,4.84-4.58H27.58V10.79A10.82,10.82,0,0,1,38.37,0H72.24A10.82,10.82,0,0,1,83,10.79v9.62h23.35a6.19,6.19,0,0,1,1,.06A3.86,3.86,0,0,1,110.59,24c0,.2,0,.38,0,.57V38.78Zm-9.5.17H17.24L22,102.3a12.82,12.82,0,0,0,3.57,8.1l0,0a10,10,0,0,0,7.19,3h45a10.06,10.06,0,0,0,7.19-3,12.8,12.8,0,0,0,3.59-8.1L93.37,39ZM71,20.41V12.05H39.64v8.36ZM61.87,58.64a4.74,4.74,0,1,1,9.47,0V93.72a4.74,4.74,0,1,1-9.47,0V58.64Z"
+                        />
                       </svg>
                     </button>
                   </td>
@@ -639,15 +674,53 @@ export default function Admin() {
               ))}
             </tbody>
           </table>
+
         </div>
         {/* Controles de paginación */}
-        <div className="pagination flex justify-center gap-2 text-xl text-gray-600 ">
-          {[...Array(totalPages)].map((_, i) => (
-            <button key={i + 1} onClick={() => paginate(i + 1)} className={currentPage === i + 1 ? 'active text-2xl text-gray-900' : ''}>
-              {i + 1}
-            </button>
-          ))}
+        <div className="pagination flex justify-center gap-2 text-xl text-gray-600">
+          {/* Botón "Anterior" */}
+          <button
+            onClick={() => paginate(currentPage - 1)}
+            disabled={currentPage === 1}
+            className={`px-3 py-1 ${currentPage === 1 ? 'text-gray-400' : 'text-gray-900'}`}
+          >
+             &#8592; {/* Flecha izquierda */}
+          </button>
+
+          {/* Botones de Paginación */}
+          {[...Array(totalPages)].map((_, i) => {
+            // Mostrar solo un rango de botones
+            const page = i + 1;
+            const maxVisiblePages = 5; // Número máximo de botones visibles
+            const startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+            const endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+            // Mostrar botones solo dentro del rango
+            if (page >= startPage && page <= endPage) {
+              return (
+                <button
+                  key={page}
+                  onClick={() => paginate(page)}
+                  className={`px-3 py-1 ${currentPage === page ? 'active text-2xl text-gray-900' : 'text-gray-600'}`}
+                >
+                  {page}
+                </button>
+              );
+            }
+
+            return null; // No mostrar los botones fuera del rango
+          })}
+
+          {/* Botón "Siguiente" */}
+          <button
+            onClick={() => paginate(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className={`px-3 py-1 ${currentPage === totalPages ? 'text-gray-400' : 'text-gray-900'}`}
+          >
+            &#8594; {/* Flecha derecha */}
+          </button>
         </div>
+
       </div>
 
     </div>
