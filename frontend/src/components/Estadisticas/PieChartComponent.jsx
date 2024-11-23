@@ -1,23 +1,6 @@
 import { useState, useEffect } from 'react'
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts'
-
-const casosPorRangoEtario = [
-  { grupo_etario: 'Menor que 1 año', total_casos: 6 },
-  { grupo_etario: 'Igual a 1 año', total_casos: 2 },
-  { grupo_etario: 'De 2 a 4 años', total_casos: 14382 },
-  { grupo_etario: 'De 5 a 9 años', total_casos: 45829 },
-  { grupo_etario: 'De 10 a 14 años', total_casos: 68550 },
-  { grupo_etario: 'De 15 a 19 años', total_casos: 72570 },
-  { grupo_etario: 'De 20 a 24 años', total_casos: 76695 },
-  { grupo_etario: 'De 25 a 34 años', total_casos: 153559 },
-  { grupo_etario: 'De 35 a 44 años', total_casos: 125673 },
-  { grupo_etario: 'De 45 a 64 años', total_casos: 170465 },
-  { grupo_etario: 'Mayor o igual a 65 años', total_casos: 52410 },
-  { grupo_etario: 'Posneonato (29 hasta 365 días)', total_casos: 3425 },
-  { grupo_etario: 'Neonato (hasta 28 días)', total_casos: 285 },
-  { grupo_etario: 'Edad Sin Esp.', total_casos: 924 },
-  { grupo_etario: 'De 13 a 24 meses', total_casos: 3884 }
-]
+import PropTypes from 'prop-types'
 
 const COLORS = [
   '#8884d8',
@@ -37,7 +20,8 @@ const COLORS = [
   '#20B2AA'
 ]
 
-const PieChartComponent = () => {
+// eslint-disable-next-line react/prop-types
+const PieChartComponent = ({ casosPorRangoEtario }) => {
   const [showLegend, setShowLegend] = useState(true)
 
   useEffect(() => {
@@ -59,7 +43,12 @@ const PieChartComponent = () => {
       <ResponsiveContainer className='flex mx-auto justify-center mt-12 max-md:mt-4 max-sm:mt-2'>
         <PieChart>
           <Pie
-            data={casosPorRangoEtario}
+            data={
+              // eslint-disable-next-line react/prop-types
+              casosPorRangoEtario && casosPorRangoEtario.length > 0
+                ? casosPorRangoEtario
+                : [{ grupo_etario: 'Desconocido', total_casos: 0 }]
+            }
             dataKey='total_casos'
             nameKey='grupo_etario'
             cx='50%'
@@ -68,12 +57,15 @@ const PieChartComponent = () => {
             fill='#8884d8'
             label={showLegend}
           >
-            {casosPorRangoEtario.map((entry, index) => (
-              <Cell
-                key={`cell-${index}`}
-                fill={COLORS[index % COLORS.length]}
-              />
-            ))}
+            {
+              // eslint-disable-next-line react/prop-types
+              casosPorRangoEtario?.map((entry, index) => (
+                <Cell
+                  key={`cell-${index}`}
+                  fill={COLORS[index % COLORS.length]}
+                />
+              ))
+            }
           </Pie>
           <Tooltip />
         </PieChart>
@@ -83,3 +75,12 @@ const PieChartComponent = () => {
 }
 
 export default PieChartComponent
+
+PieChartComponent.propTypes = {
+  casosPorProvincia: PropTypes.arrayOf(
+    PropTypes.shape({
+      provincia_residencia: PropTypes.string.isRequired,
+      total_casos: PropTypes.number.isRequired
+    })
+  )
+}
