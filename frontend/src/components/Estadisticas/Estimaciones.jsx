@@ -6,19 +6,22 @@ const Estimaciones = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get(
-        'http://localhost:5000/api/dengue/estadisticas'
-      )
-      const transformedData = response?.data.casosPorProvincia.map(
-        (item, index) => ({
-          ...item,
-          total_casos: parseInt(item.total_casos, 10),
-          index: index + 1
-        })
-      )
-      setCasosPorProvincia(transformedData)
+      try {
+        const response = await axios.get(
+          'http://localhost:5000/api/dengue/estadisticas'
+        )
+        const transformedData = response?.data.casosPorProvincia.map(
+          (item, index) => ({
+            ...item,
+            total_casos: parseInt(item.total_casos, 10),
+            index: index + 1
+          })
+        )
+        setCasosPorProvincia(transformedData)
+      } catch (error) {
+        console.error('Error al traer los datos:', error)
+      }
     }
-
     fetchData()
   }, [])
 
@@ -26,6 +29,7 @@ const Estimaciones = () => {
     <div>
       <h1>Casos por provincia</h1>
       <ul>
+        {' '}
         {casosPorProvincia?.map(item => (
           <li key={item.index}>
             {item.index}. {item.total_casos}
