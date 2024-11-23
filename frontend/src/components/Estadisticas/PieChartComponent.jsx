@@ -36,10 +36,7 @@ const PieChartComponent = ({ casosPorRangoEtario }) => {
   }, [])
 
   return (
-    <div
-      style={{ width: 450, height: 400, alignItems: 'center', margin: 'auto' }}
-      className='w-[90%] h-[90%] min-w-[400px] min-h-[400px] mx-auto'
-    >
+    <div className='w-[400px] h-[400px] lg:w-[90%] lg:h-[50%] min-w-[400px] min-h-[400px] mx-auto'>
       <ResponsiveContainer className='flex mx-auto justify-center mt-12 max-md:mt-4 max-sm:mt-2'>
         <PieChart>
           <Pie

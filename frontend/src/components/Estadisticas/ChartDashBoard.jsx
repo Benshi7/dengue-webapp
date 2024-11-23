@@ -56,7 +56,7 @@ const ChartDashBoard = () => {
           {error.message}
         </div>
       ) : null}
-      <div className='grid grid-cols-2 p-4 gap-4 mx-auto justify-center max-md:flex max-md:flex-col max-md:gap-6 max-md:justify-between max-md:items-center max-md:w-[90%]'>
+      <div className='grid grid-cols-2 p-24 md:p-10 sm:p-2 lg:p-18 gap-4 mx-auto justify-center max-md:flex max-md:flex-col max-md:gap-6 max-md:justify-between max-md:items-center max-md:w-[90%]'>
         <div
           style={{
             border: '1px solid #ddd',
