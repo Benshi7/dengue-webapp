@@ -3,6 +3,11 @@ import './App.css'
 import Home from './components/Home/Home'
 import DashboardPage from './components/Dashboard/DashboardPage'
 import ChartDashBoard from './components/Estadisticas/ChartDashBoard'
+import LoginForm from './components/Login/LoginForm'
+import PrivateRoute from './components/PrivateRoute'
+import LogoutButton from './components/Login/LogOutButton'
+import Admin from './components/Admin/Admin'
+import Unauthorized from './components/Admin/Unauthorized'
 
 function App () {
   return (
@@ -13,11 +18,14 @@ function App () {
             path='/'
             element={
               <>
-                <Home title={'Dengue Dataset'}>
-                  <h2 className='text-3xl font-bold pb-4 text-center'>
-                    Bienvenido
-                  </h2>
-                </Home>
+                <PrivateRoute>
+                  <Home title={'Dengue Dataset'}>
+                    <h2 className='text-4xl font-bold pb-4 text-center'>
+                      Bienvenido
+                    </h2>
+                    <LogoutButton />
+                  </Home>
+                </PrivateRoute>
               </>
             }
           />
@@ -25,9 +33,11 @@ function App () {
             path='/dashboard'
             element={
               <>
-                <Home title={'Dengue Dashboard'}>
-                  <DashboardPage />
-                </Home>
+                <PrivateRoute>
+                  <Home title={'Dengue Dashboard'}>
+                    <DashboardPage />
+                  </Home>
+                </PrivateRoute>
               </>
             }
           />
@@ -35,9 +45,11 @@ function App () {
             path='/charts'
             element={
               <>
-                <Home title={'Graficos Dengue'}>
-                  <ChartDashBoard />
-                </Home>
+                <PrivateRoute>
+                  <Home title={'Graficos Dengue'}>
+                    <ChartDashBoard />
+                  </Home>
+                </PrivateRoute>
               </>
             }
           />
@@ -45,8 +57,30 @@ function App () {
             path='/admin'
             element={
               <>
-                <Home title={'Admin Dashboard'}>
-                  <h2>Hola, admin</h2>
+                <PrivateRoute adminOnly={true}>
+                  <Home title={'Admin Dashboard'}>
+                    <Admin />
+                  </Home>
+                </PrivateRoute>
+              </>
+            }
+          />
+          <Route
+            path='/unauthorized'
+            element={
+              <>
+                <Home title={''}>
+                  <Unauthorized />
+                </Home>
+              </>
+            }
+          />
+          <Route
+            path='/login'
+            element={
+              <>
+                <Home title={'Login'}>
+                  <LoginForm />
                 </Home>
               </>
             }

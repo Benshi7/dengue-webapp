@@ -48,59 +48,69 @@ const Filtros = ({ setFiltros }) => {
       anio
     })
   }
-
   return (
-    <div className='flex flex-col md:flex-row items-center gap-4 mb-6 justify-center'>
-      <select
-        value={provincia}
-        onChange={e => setProvincia(e.target.value)}
-        className='select select-bordered'
-      >
-        <option value=''>Todas las provincias</option>
-        {provincias.map(prov => (
-          <option key={prov.id} value={prov.id}>
-            {prov.nombre_provincia}
-          </option>
-        ))}
-      </select>
+    <div className='flex flex-col lg:flex-row items-center gap-4 mb-6 justify-center'>
+      <div className='w-3/4 lg:w-auto'>
+        <select
+          value={provincia}
+          onChange={e => setProvincia(e.target.value)}
+          className='select select-bordered w-3/4 lg:w-auto'
+        >
+          <option value=''>Todas las provincias</option>
+          {provincias.map(prov => (
+            <option key={prov.id} value={prov.id}>
+              {prov.nombre_provincia}
+            </option>
+          ))}
+        </select>
+      </div>
 
-      <select
-        value={rangoEtario}
-        onChange={e => setRangoEtario(e.target.value)}
-        className='select select-bordered'
-      >
-        <option value=''>Todos los rangos</option>
-        {rangosEtarios.map(rango => (
-          <option key={rango.id} value={rango.id}>
-            {rango.nombre}
-          </option>
-        ))}
-      </select>
+      <div className='w-3/4 lg:w-auto'>
+        <select
+          value={rangoEtario}
+          onChange={e => setRangoEtario(e.target.value)}
+          className='select select-bordered w-3/4 lg:w-auto'
+        >
+          <option value=''>Todos los rangos</option>
+          {rangosEtarios.map(rango => (
+            <option key={rango.id} value={rango.id}>
+              {rango.nombre}
+            </option>
+          ))}
+        </select>
+      </div>
 
-      <select
-        value={tipoEvento}
-        onChange={e => setTipoEvento(e.target.value)}
-        className='select select-bordered'
-      >
-        <option value=''>Todos los eventos</option>
-        <option value='1'>Dengue</option>
-        <option value='2'>Zika</option>
-      </select>
+      <div className='w-3/4 lg:w-auto'>
+        <select
+          value={tipoEvento}
+          onChange={e => setTipoEvento(e.target.value)}
+          className='select select-bordered w-3/4 lg:w-auto'
+        >
+          <option value=''>Todos los eventos</option>
+          <option value='1'>Dengue</option>
+          <option value='2'>Zika</option>
+        </select>
+      </div>
 
-      <select
-        value={anio}
-        onChange={e => setAnio(e.target.value)}
-        className='select select-bordered'
-      >
-        <option value=''>Todos los años</option>
-        {anios.map(anio => (
-          <option key={anio.id} value={anio.id}>
-            {anio.anio}
-          </option>
-        ))}
-      </select>
+      <div className='w-3/4 lg:w-auto'>
+        <select
+          value={anio}
+          onChange={e => setAnio(e.target.value)}
+          className='select select-bordered w-3/4 lg:w-auto'
+        >
+          <option value=''>Todos los años</option>
+          {anios.map(anio => (
+            <option key={anio.id} value={anio.id}>
+              {anio.anio}
+            </option>
+          ))}
+        </select>
+      </div>
 
-      <button className='btn btn-primary' onClick={handleApplyFilters}>
+      <button
+        className='btn btn-primary w-1/3 lg:w-auto'
+        onClick={handleApplyFilters}
+      >
         Aplicar
         <CircleCheck className='w-5' />
       </button>

@@ -51,45 +51,44 @@ const EstadisticasCasos = ({ estadisticas }) => {
   )
 
   return (
-    <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4 my-6 max-w-[90%] md:max-w-[70%] lg:max-w-[60%] mx-auto'>
-      <div className='card bg-primary text-primary-content shadow-lg w-full h-auto'>
-        <div className='card-body'>
-          <h2 className='card-title mx-auto'>Casos Totales</h2>
-          <p className='text-2xl font-bold'>
-            {total !== '' ? total : 'Cargando...'}
-          </p>
+    <div className='grid grid-cols-1 sm:grid-cols-2 gap-4 my-6 max-w-[90%] md:max-w-[80%] lg:max-w-[60%] mx-auto'>
+      {[
+        {
+          bgColor: 'bg-primary text-primary-content',
+          title: 'Casos Totales',
+          content: total !== '' ? total : 'Cargando...'
+        },
+        {
+          bgColor: 'bg-secondary text-secondary-content',
+          title: 'Provincia más afectada',
+          content:
+            casosPorProvincia?.[indiceProvinciaConMasCasos]
+              ?.provincia_residencia || 'Sin datos'
+        },
+        {
+          bgColor: 'bg-accent text-accent-content',
+          title: 'Rango Etario Más Afectado',
+          content:
+            casosPorRangoEtario?.length > 0
+              ? casosPorRangoEtario[indiceMaxRangoEtario]?.grupo_etario
+              : 'Sin datos disponibles'
+        },
+        {
+          bgColor: 'bg-info text-info-content',
+          title: 'Promedio por Provincia',
+          content: promedioPorProvincia || 'Sin datos'
+        }
+      ].map(({ bgColor, title, content }, index) => (
+        <div
+          key={index}
+          className={`card ${bgColor} shadow-lg w-full h-auto flex items-center`}
+        >
+          <div className='card-body'>
+            <h2 className='card-title text-center'>{title}</h2>
+            <p className='text-2xl font-bold text-center'>{content}</p>
+          </div>
         </div>
-      </div>
-
-      <div className='card bg-secondary text-secondary-content shadow-lg w-full h-auto'>
-        <div className='card-body'>
-          <h2 className='card-title mx-auto'>Provincia más afectada</h2>
-          <p className='text-2xl font-bold'>
-            {casosPorProvincia !== undefined
-              ? casosPorProvincia?.[indiceProvinciaConMasCasos]
-                  ?.provincia_residencia
-              : ''}
-          </p>
-        </div>
-      </div>
-
-      <div className='card bg-accent text-accent-content shadow-lg w-full h-auto'>
-        <div className='card-body'>
-          <h2 className='card-title mx-auto'>Rango Etario Más Afectado</h2>
-          <p className='text-2xl font-bold'>
-            {casosPorRangoEtario && casosPorRangoEtario.length > 0
-              ? casosPorRangoEtario[indiceMaxRangoEtario].grupo_etario
-              : 'Sin datos disponibles'}
-          </p>
-        </div>
-      </div>
-
-      <div className='card bg-info text-info-content shadow-lg w-full h-auto'>
-        <div className='card-body'>
-          <h2 className='card-title mx-auto'>Promedio por Provincia</h2>
-          <p className='text-2xl font-bold'>{promedioPorProvincia}</p>
-        </div>
-      </div>
+      ))}
     </div>
   )
 }

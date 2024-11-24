@@ -49,7 +49,20 @@ router.get('/dengue', (_req, res) => {
   })
 })
 
-// traer los casos con un id específico
+router.get('/dengue2', (req, res) => {
+  const query = 'SELECT * FROM dengue_data'
+
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error('Error buscando en la base de datos:', err)
+      return res.status(500).send('Error buscando en la base de datos')
+    }
+
+    //
+    res.json(results)
+  })
+})
+
 router.get('/dengue/id/:id', (req, res) => {
   const id = parseInt(req.params.id)
   if (isNaN(id)) {
@@ -196,7 +209,7 @@ router.post('/dengue/agregar/:anio', (req, res) => {
 
 //POST ingresa un nuevo caso
 router.post(
-  '/:departamento_residencia/:provincia_residencia_id/:grupo_etario_id/:cantidad/:tipo_evento_id/:anio_id/',
+  '/agregar_caso/:departamento_residencia/:provincia_residencia_id/:grupo_etario_id/:cantidad/:tipo_evento_id/:anio_id/',
   (req, res) => {
     const query = 'INSERT INTO dengue_data SET ?'
     const agregoContagio = {
