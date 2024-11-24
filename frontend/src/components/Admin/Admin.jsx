@@ -606,7 +606,7 @@ export default function Admin () {
 
     if (result.isConfirmed) {
       const response = await fetch(
-        `http://localhost:5000/eliminar/api/${id}/`,
+        `http://localhost:5000/api/dengue/eliminar/${id}`,
         {
           method: 'DELETE',
           headers: {
@@ -747,7 +747,7 @@ export default function Admin () {
                         <path d='M1 21h4l11-11-4-4L1 17v4z' />
                       </svg>
                     </button>
-                    <button onClick={() => eliminar(item.id)}>
+                    <button onClick={() => eliminar(parseInt(item?.id))}>
                       <svg
                         className='lg:h-6 h-5 text-red-800'
                         xmlns='http://www.w3.org/2000/svg'
