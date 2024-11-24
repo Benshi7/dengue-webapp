@@ -60,7 +60,7 @@ const LoginForm = () => {
   }
 
   const switchToRegister = () => {
-    alert('Redirigiendo al registro...')
+    alert('Temporalmente deshabilitado')
   }
 
   const handleGoogleLogin = async () => {}

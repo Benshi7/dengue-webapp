@@ -332,9 +332,7 @@ export default function Admin () {
     const grupoEventoOpciones = evento
       .map(
         event =>
-          `<option value="${event}">${
-            event == 1 ? 'Dengue' : 'Chikungunya'
-          }</option>`
+          `<option value="${event}">${event == 1 ? 'Dengue' : 'Zika'}</option>`
       )
       .join('')
     const totalAnio = anio
@@ -448,7 +446,6 @@ export default function Admin () {
           }</option>`
       )
       .join('')
-    console.log(edades)
 
     const grupoEtarioOpciones = edades
       .map(
@@ -462,7 +459,7 @@ export default function Admin () {
       .map(
         evento =>
           `<option value="${evento}" ${evento[0] == event ? 'selected' : ''}>${
-            event == 1 ? 'Dengue' : 'Chikungunya'
+            event == 1 ? 'Dengue' : 'Zika'
           }</option>`
       )
       .join('')
@@ -715,7 +712,7 @@ export default function Admin () {
                     {grupEtario.find(p => p.id === item.grupo_etario_id)?.name}
                   </td>
                   <td className=' '>
-                    {item.tipo_evento_id === 1 ? 'Dengue' : 'Chikungunya'}
+                    {item.tipo_evento_id === 1 ? 'Dengue' : 'Zika'}
                   </td>
                   <td className=' '>{item.cantidad}</td>
                   <td className=' flex lg:gap-2 gap-1 justify-end lg:justify-center'>

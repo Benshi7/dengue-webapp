@@ -3,6 +3,7 @@ import Filtros from './filtros'
 import EstadisticasCasos from './estadisticasCasos'
 import ResultadosTabla from './resultadosTabla'
 import axios from 'axios'
+import { estadisticasPreFetch } from '../../../consts/consts'
 
 const DashboardPage = () => {
   const [filtros, setFiltros] = useState({
@@ -12,12 +13,7 @@ const DashboardPage = () => {
     anio: ''
   })
   const [datos, setDatos] = useState([])
-  const [estadisticas, setEstadisticas] = useState({
-    casosTotales: 0,
-    provinciasAfectadas: 0,
-    rangoEtarioAfectado: '',
-    promedioPorProvincia: 0
-  })
+  const [estadisticas, setEstadisticas] = useState(estadisticasPreFetch)
 
   useEffect(() => {
     const fetchData = async () => {

@@ -50,11 +50,11 @@ const Filtros = ({ setFiltros }) => {
   }
   return (
     <div className='flex flex-col lg:flex-row items-center gap-4 mb-6 justify-center'>
-      <div className='w-3/4 lg:w-auto'>
+      <div className='w-full lg:w-auto'>
         <select
           value={provincia}
           onChange={e => setProvincia(e.target.value)}
-          className='select select-bordered w-3/4 lg:w-auto'
+          className='select select-bordered w-full lg:w-auto'
         >
           <option value=''>Todas las provincias</option>
           {provincias.map(prov => (
@@ -65,11 +65,11 @@ const Filtros = ({ setFiltros }) => {
         </select>
       </div>
 
-      <div className='w-3/4 lg:w-auto'>
+      <div className='w-full lg:w-auto'>
         <select
           value={rangoEtario}
           onChange={e => setRangoEtario(e.target.value)}
-          className='select select-bordered w-3/4 lg:w-auto'
+          className='select select-bordered w-full lg:w-auto'
         >
           <option value=''>Todos los rangos</option>
           {rangosEtarios.map(rango => (
@@ -80,11 +80,11 @@ const Filtros = ({ setFiltros }) => {
         </select>
       </div>
 
-      <div className='w-3/4 lg:w-auto'>
+      <div className='w-full lg:w-auto'>
         <select
           value={tipoEvento}
           onChange={e => setTipoEvento(e.target.value)}
-          className='select select-bordered w-3/4 lg:w-auto'
+          className='select select-bordered w-full lg:w-auto'
         >
           <option value=''>Todos los eventos</option>
           <option value='1'>Dengue</option>
@@ -92,11 +92,11 @@ const Filtros = ({ setFiltros }) => {
         </select>
       </div>
 
-      <div className='w-3/4 lg:w-auto'>
+      <div className='w-full lg:w-auto'>
         <select
           value={anio}
           onChange={e => setAnio(e.target.value)}
-          className='select select-bordered w-3/4 lg:w-auto'
+          className='select select-bordered w-full lg:w-auto'
         >
           <option value=''>Todos los años</option>
           {anios.map(anio => (
@@ -108,7 +108,7 @@ const Filtros = ({ setFiltros }) => {
       </div>
 
       <button
-        className='btn btn-primary w-1/3 lg:w-auto'
+        className='btn btn-primary w-2/3 lg:w-auto'
         onClick={handleApplyFilters}
       >
         Aplicar

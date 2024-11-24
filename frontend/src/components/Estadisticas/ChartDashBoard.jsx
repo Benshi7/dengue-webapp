@@ -4,10 +4,10 @@ import GraficoPuntos from './GraficoPuntos'
 import PieChartComponent from './PieChartComponent'
 import SimpleAreaChart from './SimpleAreaChart'
 import { useEffect, useState } from 'react'
-import { Loader } from 'lucide-react'
+import { estadisticasPreFetch } from '../../../consts/consts'
 
 const ChartDashBoard = () => {
-  const [estadisticas, setEstadisticas] = useState([])
+  const [estadisticas, setEstadisticas] = useState(estadisticasPreFetch)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
@@ -67,7 +67,7 @@ const ChartDashBoard = () => {
             border: '1px solid #ddd',
             padding: '10px',
             borderRadius: '8px',
-            minWidth: '420px'
+            minWidth: '350px'
           }}
         >
           Total de casos por año
@@ -78,7 +78,7 @@ const ChartDashBoard = () => {
             border: '1px solid #ddd',
             padding: '10px',
             borderRadius: '8px',
-            minWidth: '420px'
+            minWidth: '350px'
           }}
         >
           Casos por grupo etario
@@ -91,7 +91,7 @@ const ChartDashBoard = () => {
             border: '1px solid #ddd',
             padding: '10px',
             borderRadius: '8px',
-            minWidth: '420px'
+            minWidth: '350px'
           }}
         >
           Total de casos por provincia
@@ -104,7 +104,7 @@ const ChartDashBoard = () => {
             border: '1px solid #ddd',
             padding: '10px',
             borderRadius: '8px',
-            minWidth: '420px'
+            minWidth: '350px'
           }}
         >
           Casos por provincia

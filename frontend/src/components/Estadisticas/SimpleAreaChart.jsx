@@ -12,10 +12,10 @@ import PropTypes from 'prop-types'
 const SimpleAreaChart = ({ casosPorAnio }) => {
   return (
     <>
-      <div className='w-full mx-auto max-md:w-[90%] min-w-[400px]'>
+      <div className='w-full mx-auto max-md:w-[90%] min-w-[300px]'>
         <ResponsiveContainer
           width='100%'
-          height={window.innerWidth < 500 ? 200 : 400}
+          height={window.innerWidth < 400 ? 200 : 400}
         >
           <AreaChart
             data={

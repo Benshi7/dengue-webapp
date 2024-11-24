@@ -11,10 +11,10 @@ import PropTypes from 'prop-types'
 
 const BarChartComponent = ({ casosPorProvincia }) => {
   return (
-    <div className='w-full h-[90%] mx-auto max-md:h-[400px] items-center'>
+    <div className='w-full h-[90%] mx-auto max-md:h-[400px] items-center -ml-7'>
       <ResponsiveContainer
         width='100%'
-        height={window.innerWidth < 500 ? 200 : 400}
+        height={window.innerWidth < 400 ? 200 : 400}
       >
         <BarChart
           data={

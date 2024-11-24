@@ -39,7 +39,7 @@ const PieChartComponent = ({ casosPorRangoEtario }) => {
     <div className=' w-full h-[90%] max-md:w-[90%] mx-auto max-md:h-[400px] items-center'>
       <ResponsiveContainer
         width='100%'
-        height={window.innerWidth < 500 ? 200 : 400}
+        height={window.innerWidth < 400 ? 200 : 400}
       >
         <PieChart>
           <Pie
