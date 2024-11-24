@@ -179,6 +179,66 @@ router.get('/dengue/provincia/:provincia', (req, res) => {
   })
 })
 
+router.get('/dengue/provinciaData', async (req, res) => {
+  try {
+    const {
+      provincia_residencia_id,
+      grupo_etario_id,
+      tipo_evento_id,
+      anio_id
+    } = req.query
+
+    let filtro = 'WHERE 1=1'
+    const valores = []
+
+    if (provincia_residencia_id) {
+      filtro += ` AND dengue_data.provincia_residencia_id = ?`
+      valores.push(provincia_residencia_id)
+    }
+    if (grupo_etario_id) {
+      filtro += ` AND dengue_data.grupo_etario_id = ?`
+      valores.push(grupo_etario_id)
+    }
+    if (tipo_evento_id) {
+      filtro += ` AND dengue_data.tipo_evento_id = ?`
+      valores.push(tipo_evento_id)
+    }
+    if (anio_id) {
+      filtro += ` AND dengue_data.anio_id = ?`
+      valores.push(anio_id)
+    }
+
+    const query = `
+      SELECT
+        dengue_data.id,
+        dengue_data.cantidad,
+        dengue_data.departamento_residencia,
+        provincia_residencia.nombre_provincia AS provincia_residencia,
+        grupo_etario.nombre AS grupo_etario,
+        tipo_evento.nombre_evento AS tipo_evento,
+        anio.anio AS anio
+      FROM dengue_data
+      JOIN provincia_residencia ON dengue_data.provincia_residencia_id = provincia_residencia.id
+      JOIN grupo_etario ON dengue_data.grupo_etario_id = grupo_etario.id
+      JOIN tipo_evento ON dengue_data.tipo_evento_id = tipo_evento.id
+      JOIN anio ON dengue_data.anio_id = anio.id
+      ${filtro}
+    `
+
+    connection.query(query, valores, (err, results) => {
+      if (err) {
+        console.error('Error ejecutando la consulta:', err)
+        return res.status(500).send('Error buscando en la base de datos')
+      }
+
+      res.json(results)
+    })
+  } catch (error) {
+    console.error('Error general:', error)
+    res.status(500).send('Error interno en el servidor')
+  }
+})
+
 // casos totales por provincia (por id)
 router.get('/dengue/casos_totales/:provinciaId', (req, res) => {
   const provinciaId = req.params.provinciaId

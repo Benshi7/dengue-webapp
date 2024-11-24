@@ -8,38 +8,20 @@ import {
   Tooltip,
   ResponsiveContainer
 } from 'recharts'
-import axios from 'axios'
+import PropTypes from 'prop-types'
 
-const GraficoPuntos = () => {
+const GraficoPuntos = ({ casosPorProvincia }) => {
   const [datosTransformados, setDatosTransformados] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
-
-  const fetchData = async () => {
-    try {
-      const response = await axios.get(
-        'http://localhost:5000/api/dengue/estadisticas'
-      )
-      const casosPorProvincia = response.data.casosPorProvincia
-
-      const transformedData = casosPorProvincia.map((item, index) => ({
-        ...item,
-        total_casos: parseInt(item.total_casos),
-        index: index + 1
-      }))
-
-      setDatosTransformados(transformedData)
-    } catch (err) {
-      setError(err)
-    } finally {
-      setLoading(false)
-    }
-  }
 
   useEffect(() => {
-    fetchData()
-  }, [])
-
+    const transformedData = casosPorProvincia?.map((item, index) => ({
+      ...item,
+      total_casos: parseInt(item.total_casos),
+      index: index + 1
+    }))
+    setDatosTransformados(transformedData)
+  }, [casosPorProvincia])
+  /*
   if (loading) {
     return <div>Loading...</div>
   }
@@ -47,12 +29,15 @@ const GraficoPuntos = () => {
   if (error) {
     return <div>Error fetching data: {error.message}</div>
   }
-
+ */
   return (
-    <div className='w-[90%] h-[90%] min-w-[400px] min-h-[400px] mx-auto'>
-      <ResponsiveContainer className=' min-w-[90%] min-h-[90%]'>
+    <div className=' w-full h-[90%] max-md:w-[90%] mx-auto max-md:h-[400px] items-center'>
+      <ResponsiveContainer
+        width='100%'
+        height={window.innerWidth < 500 ? 200 : 400}
+      >
         <ScatterChart
-          width={800}
+          width={700}
           height={400}
           margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
         >
@@ -61,17 +46,17 @@ const GraficoPuntos = () => {
             dataKey='index'
             name='Provincia'
             tickFormatter={index =>
-              datosTransformados.find(d => d.index === index)
+              datosTransformados?.find(d => d.index === index)
                 ?.provincia_residencia || ''
             }
-            domain={[1, datosTransformados.length]}
+            domain={[1, datosTransformados?.length]}
           />
           <YAxis dataKey='total_casos' name='Casos de Dengue' />
           <Tooltip cursor={{ strokeDasharray: '3 3' }} />
           <Scatter
             name='Casos por Provincia'
             data={datosTransformados}
-            fill='#8884d8'
+            fill='#FF3864'
           />
         </ScatterChart>
       </ResponsiveContainer>
@@ -80,3 +65,12 @@ const GraficoPuntos = () => {
 }
 
 export default GraficoPuntos
+
+GraficoPuntos.propTypes = {
+  casosPorProvincia: PropTypes.arrayOf(
+    PropTypes.shape({
+      provincia_residencia: PropTypes.string.isRequired,
+      total_casos: PropTypes.number.isRequired
+    })
+  )
+}

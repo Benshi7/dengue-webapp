@@ -34,7 +34,7 @@ function App () {
             element={
               <>
                 <PrivateRoute>
-                  <Home title={'Dengue Dashboard'}>
+                  <Home title={'Dashboard'}>
                     <DashboardPage />
                   </Home>
                 </PrivateRoute>
@@ -46,7 +46,7 @@ function App () {
             element={
               <>
                 <PrivateRoute>
-                  <Home title={'Graficos Dengue'}>
+                  <Home title={'Graficos'}>
                     <ChartDashBoard />
                   </Home>
                 </PrivateRoute>
@@ -58,7 +58,7 @@ function App () {
             element={
               <>
                 <PrivateRoute adminOnly={true}>
-                  <Home title={'Admin Dashboard'}>
+                  <Home title={'Panel de Administrador'}>
                     <Admin />
                   </Home>
                 </PrivateRoute>

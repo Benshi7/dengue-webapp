@@ -37,7 +37,7 @@ const DashboardPage = () => {
         setEstadisticas(responseStats.data)
 
         const responseCasos = await axios.get(
-          `http://localhost:5000/api/dengue/provincia/${filtros.provincia}}`
+          `http://localhost:5000/api/dengue/provinciaData?${params.toString()}`
         )
         setDatos(responseCasos.data)
       } catch (error) {
@@ -52,7 +52,7 @@ const DashboardPage = () => {
     <div className='justify-center mx-auto mt-6 max-w-[75%]'>
       <Filtros setFiltros={setFiltros} />
       <EstadisticasCasos estadisticas={estadisticas} />
-      <ResultadosTabla datos={datos} />
+      <ResultadosTabla datos={datos} filtros={filtros} />
     </div>
   )
 }

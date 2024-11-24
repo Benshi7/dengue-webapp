@@ -35,9 +35,7 @@ const Graphs = () => {
     <div className='h-[500px] w-[500px]'>
       <ResponsiveContainer width='100%' height='100%'>
         <BarChart data={dataArray}>
-          <Bar dataKey='total_casos' fill='#8884d8'>
-            asd
-          </Bar>
+          <Bar dataKey='total_casos' fill='#8884d8'></Bar>
         </BarChart>
       </ResponsiveContainer>
     </div>
