@@ -1,3 +1,4 @@
+import { ArrowLeft, ArrowRight } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import Swal from 'sweetalert2'
 
@@ -604,12 +605,15 @@ export default function Admin () {
     })
 
     if (result.isConfirmed) {
-      const response = await fetch(`http://localhost:5000/api/${id}/`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json'
+      const response = await fetch(
+        `http://localhost:5000/eliminar/api/${id}/`,
+        {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json'
+          }
         }
-      })
+      )
 
       if (response.ok) {
         setData(prevData => prevData.filter(item => item.id !== id)) // Actualiza el estado eliminando el registro
@@ -767,11 +771,11 @@ export default function Admin () {
           <button
             onClick={() => paginate(currentPage - 1)}
             disabled={currentPage === 1}
-            className={`px-3 py-1 ${
-              currentPage === 1 ? 'text-base-900' : 'text-base-400'
+            className={`px-3 py-1  transition-colors hover:text-primary ${
+              currentPage === 1 ? 'text-base-800' : 'text-base-400'
             }`}
           >
-            &#8592; {/* Flecha izquierda */}
+            <ArrowLeft /> {/* Flecha izquierda */}
           </button>
 
           {/* Botones de Paginación */}
@@ -812,11 +816,11 @@ export default function Admin () {
           <button
             onClick={() => paginate(currentPage + 1)}
             disabled={currentPage === totalPages}
-            className={`px-3 py-1 ${
-              currentPage === totalPages ? 'text-base-900' : 'text-base-400'
+            className={`px-3 py-1 transition-colors hover:text-primary ${
+              currentPage === totalPages ? 'text-base-800' : 'text-base-400'
             }`}
           >
-            &#8594; {/* Flecha derecha */}
+            <ArrowRight /> {/* Flecha derecha */}
           </button>
         </div>
       </div>
